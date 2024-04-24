@@ -1,0 +1,86 @@
+[
+  {
+    "nombreTarjeta": "Rodrigo Galindo",
+    "numTarjeta": "784515958",
+    "saldo": "6000",
+    "banco": "BANRURAL",
+    "tipo": "Visa",
+    "estadoCuenta": [
+      {
+        "fecha": "2024-04-20",
+        "descripcion": "Depósito de salario",
+        "monto": 3000.00,
+        "tipo": "Depósito"
+      },
+      {
+        "fecha": "2024-04-22",
+        "descripcion": "Compra en supermercado",
+        "monto": -100.00,
+        "tipo": "Débito"
+      }
+    ]
+  },
+  {
+    "nombreTarjeta": "Rodrigo Galindo",
+    "numTarjeta": "951456213",
+    "saldo": "5219.63",
+    "banco": "BI",
+    "tipo": "Mastercard",
+    "estadoCuenta": [
+      {
+        "fecha": "2024-04-18",
+        "descripcion": "Transferencia entrante",
+        "monto": 2000.00,
+        "tipo": "Depósito"
+      },
+      {
+        "fecha": "2024-04-23",
+        "descripcion": "Pago de factura de luz",
+        "monto": -200.00,
+        "tipo": "Débito"
+      }
+    ]
+  },
+  {
+    "nombreTarjeta": "Silvia Martinez",
+    "numTarjeta": "789789465",
+    "saldo": "281.12",
+    "banco": "BI",
+    "tipo": "Visa",
+    "estadoCuenta": [
+      {
+        "fecha": "2024-04-19",
+        "descripcion": "Depósito de ahorros",
+        "monto": 100.00,
+        "tipo": "Depósito"
+      },
+      {
+        "fecha": "2024-04-21",
+        "descripcion": "Retiro de cajero automático",
+        "monto": -50.00,
+        "tipo": "Débito"
+      }
+    ]
+  },
+  {
+    "nombreTarjeta": "Juana Santos",
+    "numTarjeta": "159963258",
+    "saldo": "5081.12",
+    "banco": "BANTRAB",
+    "tipo": "Visa",
+    "estadoCuenta": [
+      {
+        "fecha": "2024-04-17",
+        "descripcion": "Depósito de salario",
+        "monto": 3500.00,
+        "tipo": "Depósito"
+      },
+      {
+        "fecha": "2024-04-17",
+        "descripcion": "Compra en línea",
+        "monto": -200.00,
+        "tipo": "Débito"
+      }
+    ]
+  }
+]

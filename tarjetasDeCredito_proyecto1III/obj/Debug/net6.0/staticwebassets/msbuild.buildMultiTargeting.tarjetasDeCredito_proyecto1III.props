@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\tarjetasDeCredito_proyecto1III.props" />
+</Project>
