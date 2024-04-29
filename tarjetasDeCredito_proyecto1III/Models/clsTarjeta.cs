@@ -9,10 +9,11 @@
         public string banco { get; set; }
         public string tipo { get; set; }
         public string correo { get; set; }
-        
+        public string pin { get; set; }
 
 
-        public clsTarjeta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo)
+
+        public clsTarjeta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo, string pin)
         {
             this.nombreTarjeta = nombreTarjeta;
             this.numTarjeta = numTarjeta;
@@ -20,6 +21,7 @@
             this.banco = banco;
             this.tipo = tipo;
             this.correo = correo;
+            this.pin = pin;
         }
 
         

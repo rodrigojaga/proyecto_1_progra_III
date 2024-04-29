@@ -19,8 +19,9 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
     {
         clsArbolBinarioBusqueda arbol = new clsArbolBinarioBusqueda();
         Queue<clsTarjetaRetiro> queColaMonto = new Queue<clsTarjetaRetiro>();
-        clsTarjeta notFound = new clsTarjeta("Not found", "Not found", "Not found", "Not found", "Not found", "Not found");
+        clsTarjeta notFound = new clsTarjeta("Not found", "Not found", "Not found", "Not found", "Not found", "Not found","Not found");
         Queue<clsCorreoObj>  colaMensajes = new Queue<clsCorreoObj>();
+        LinkedList<clsCambioPin> lklistCambioPin = new LinkedList<clsCambioPin>(); 
 
         private readonly IWebHostEnvironment _hostingEnvironment;
 
@@ -35,7 +36,8 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         {
             var resultado = fncListarTarjetas(strNombreTarjeta);
             
-            if (!resultado[0].nombreTarjeta.Equals("Not found") && fncCheckToken())                 
+            if (!resultado[0].nombreTarjeta.Equals("Not found") //&& fncCheckToken()
+                )                 
             {
 
                 return resultado;
@@ -54,7 +56,8 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         {
             var resultado = fncListarSaldos(strNumTarjeta);
 
-            if (!resultado.First.Value.nombreTarjeta.Equals("Not found") && fncCheckToken())
+            if (!resultado.First.Value.nombreTarjeta.Equals("Not found") //&& fncCheckToken()
+                )
             {
 
                 List<string> saldo = new List<string>();
@@ -74,12 +77,12 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         }
 
        
-        [HttpPost]
-        [Route("actualizar_saldo")]
-        public dynamic apiActualizarSaldo(string strNumeroTarjeta, decimal montoRetiro)
+        [HttpPut]
+        [Route("actualizar_saldo/{strNumTarjeta}/monto")]
+        public dynamic apiActualizarSaldo(string strNumTarjeta, [FromBody]decimal monto)
         {
 
-            queColaMonto.Enqueue(new clsTarjetaRetiro(fncListarTarjetasNumTarjeta(strNumeroTarjeta).First(), montoRetiro));
+            queColaMonto.Enqueue(new clsTarjetaRetiro(fncListarTarjetasNumTarjeta(strNumTarjeta).First(), monto));
             return fncRetirar(queColaMonto);
             
         }
@@ -155,6 +158,17 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
 
         }
 
+        [HttpPut("cambiar_pin/{strNumTarjeta}/pin")]
+        public dynamic apiCambiarPin(string strNumTarjeta, [FromBody] string nuevoPin)
+        {
+            lklistCambioPin.AddLast(new clsCambioPin(strNumTarjeta,nuevoPin));
+
+            mtdActualizarPinEnJSON(strNumTarjeta, nuevoPin);
+
+            return "Done";
+        }
+
+
 
         private string fncRetirar(Queue<clsTarjetaRetiro> tarjeta)
         {
@@ -176,6 +190,8 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         }
 
         
+
+
 
 
         private void mtdActualizarSaldoEnJson(string strNumeroTarjeta, decimal montoRetiro)
@@ -216,10 +232,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
                 cuerpoMensaje += $" \r\nLa tarjeta {tarjeta.nombreTarjeta} del banco {tarjeta.banco} \r\nEstado actual en la cuenta {tarjeta.saldo}";
 
                 //Crear nuevo estado de Cuenta
-                tarjeta.estadoCuenta.Add(newEstadoCuenta);
-                
-                
-                
+                tarjeta.estadoCuenta.Add(newEstadoCuenta);                                                
 
                 // Re-serializar la lista de objetos de vuelta a JSON
                 string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
@@ -361,9 +374,77 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         }
 
 
-        
 
-        
+        //public bool fncCambiarPin(string strNumTarjeta, string nuevoPin)
+        //{
+        //    try
+        //    {
+        //        // Leer el JSON desde el archivo
+        //        string nombreArchivo = "tarjetas_datos.json";
+        //        string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources",
+        //            nombreArchivo);
+        //        string json = System.IO.File.ReadAllText(rutaArchivo);
+        //        List<clsTarjetaEstadoCuenta> tarjetas = JsonConvert.DeserializeObject<List<clsTarjetaEstadoCuenta>>(json);
+
+        //        // Buscar la tarjeta con el ID proporcionado
+        //        var tarjeta = tarjetas.FirstOrDefault(t => t.numTarjeta == strNumTarjeta);
+
+        //        if (tarjeta != null)
+        //        {
+        //            // Actualizar el PIN de la tarjeta
+        //            tarjeta.pin = nuevoPin;
+
+        //            // Re-serializar la lista de objetos de vuelta a JSON
+        //            string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
+
+        //            // Escribir el JSON actualizado de vuelta al archivo
+        //            System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
+
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        private void mtdActualizarPinEnJSON(string strNumeroTarjeta, string nuevoPin)
+        {
+            string nombreArchivo = "tarjetas_datos.json";
+            string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources", nombreArchivo);
+
+
+            string json = System.IO.File.ReadAllText(rutaArchivo);
+            List<clsTarjetaEstadoCuenta> tarjetas = JsonConvert.DeserializeObject<List<clsTarjetaEstadoCuenta>>(json);
+
+            // Buscar la tarjeta cuyo saldo se va a actualizar
+            var tarjeta = tarjetas.FirstOrDefault(t => t.numTarjeta.ToUpper() == strNumeroTarjeta.ToUpper());
+
+            if (tarjeta != null)
+            {
+                // Actualizar el pin de la tarjeta
+                tarjeta.pin = nuevoPin;
+
+                // Re-serializar la lista de objetos de vuelta a JSON
+                string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
+
+                // Escribir el JSON actualizado de vuelta al archivo
+                System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
+
+
+
+            }
+            else
+            {
+                throw new Exception("No se encontró la tarjeta especificada.");
+            }
+        }
+
 
     }
 }

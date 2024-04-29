@@ -2,19 +2,20 @@
   {
     "nombreTarjeta": "Rodrigo Galindo",
     "numTarjeta": "784515958",
-    "saldo": "6350",
+    "saldo": "6348.27",
     "banco": "BANRURAL",
     "tipo": "Visa",
     "correo": "rgalindos@miumg.edu.gt",
+    "pin": "777",
     "estadoCuenta": [
       {
-        "fecha": "2024-04-20",
+        "fecha": "2024/04/20",
         "descripcion": "Depósito de salario",
         "monto": "3000.00",
         "tipo": "Depósito"
       },
       {
-        "fecha": "2024-04-22",
+        "fecha": "2024/04/22",
         "descripcion": "Compra en supermercado",
         "monto": "-100.00",
         "tipo": "Débito"
@@ -72,6 +73,18 @@
         "descripcion": "Deposito de dinero",
         "monto": "100",
         "tipo": "Deposito"
+      },
+      {
+        "fecha": "29/04/2024 03:10:54 PM",
+        "descripcion": "Deposito de dinero",
+        "monto": "48.5",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "29/04/2024 03:14:07 PM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-50.23",
+        "tipo": "Débito"
       }
     ]
   },
@@ -82,6 +95,7 @@
     "banco": "BI",
     "tipo": "Mastercard",
     "correo": "rgalindos@miumg.edu.gt",
+    "pin": "123",
     "estadoCuenta": [
       {
         "fecha": "2024-04-18",
@@ -104,6 +118,7 @@
     "banco": "BI",
     "tipo": "Visa",
     "correo": "rgalindos@miumg.edu.gt",
+    "pin": "123",
     "estadoCuenta": [
       {
         "fecha": "2024-04-19",
@@ -126,6 +141,7 @@
     "banco": "BANTRAB",
     "tipo": "Visa",
     "correo": "rgalindos@miumg.edu.gt",
+    "pin": "123",
     "estadoCuenta": [
       {
         "fecha": "2024-04-17",

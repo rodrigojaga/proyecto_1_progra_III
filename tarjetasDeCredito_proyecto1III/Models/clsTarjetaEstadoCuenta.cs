@@ -11,6 +11,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
         public string banco { get; set; }
         public string tipo { get; set; }
         public string correo {  get; set; }
+        public string pin { get; set; }
         public List<clsEstadoCuenta> estadoCuenta { get; set; }
 
 
@@ -25,7 +26,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
         //    this.estadoCuenta = estadoCuenta;
         //}
 
-        public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo
+        public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo, string pin
                                                                                                                         , List<clsEstadoCuenta> estadoCuenta)
         {
             this.nombreTarjeta = nombreTarjeta;
@@ -34,6 +35,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
             this.banco = banco;
             this.tipo = tipo;
             this.correo = correo;
+            this.pin = pin;
             this.estadoCuenta = estadoCuenta;
         }
 
