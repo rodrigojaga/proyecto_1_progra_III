@@ -10,17 +10,30 @@ namespace tarjetasDeCredito_proyecto1III.Models
         public string saldo { get; set; }
         public string banco { get; set; }
         public string tipo { get; set; }
+        public string correo {  get; set; }
         public List<clsEstadoCuenta> estadoCuenta { get; set; }
 
 
 
-        public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, List<clsEstadoCuenta> estadoCuenta)
+        //public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, List<clsEstadoCuenta> estadoCuenta)
+        //{
+        //    this.nombreTarjeta = nombreTarjeta;
+        //    this.numTarjeta = numTarjeta;
+        //    this.saldo = saldo;
+        //    this.banco = banco;
+        //    this.tipo = tipo;
+        //    this.estadoCuenta = estadoCuenta;
+        //}
+
+        public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo
+                                                                                                                        , List<clsEstadoCuenta> estadoCuenta)
         {
             this.nombreTarjeta = nombreTarjeta;
             this.numTarjeta = numTarjeta;
             this.saldo = saldo;
             this.banco = banco;
             this.tipo = tipo;
+            this.correo = correo;
             this.estadoCuenta = estadoCuenta;
         }
 

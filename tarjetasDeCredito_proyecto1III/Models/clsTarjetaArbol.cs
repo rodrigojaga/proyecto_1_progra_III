@@ -24,7 +24,33 @@ namespace tarjetasDeCredito_proyecto1III.Models
             this.arbolEstado = arbolEstado;
         }
 
+        public clsTarjetaArbol(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo)
+        {
+            this.nombreTarjeta = nombreTarjeta;
+            this.numTarjeta = numTarjeta;
+            this.saldo = saldo;
+            this.banco = banco;
+            this.tipo = tipo;
+           
+        }
+
+        public void insertEstadoCuentas(List<clsEstadoCuenta> estadosCuenta)
+        {
+            if (estadosCuenta != null)
+            {
+                foreach (var estadoCuenta in estadosCuenta)
+                {
+                    arbolEstado.insertar(estadoCuenta);
+                }
+            }
+        }
+
         public clsTarjetaArbol() { }
+
+        public override string ToString()
+        {
+            return $"{nombreTarjeta} - {saldo} ";
+        }
 
     }
 }

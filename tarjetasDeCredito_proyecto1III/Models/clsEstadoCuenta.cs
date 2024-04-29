@@ -10,7 +10,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
         public string monto { get; set; }
         public string tipo { get; set; }
 
-        public clsEstadoCuenta(clsTarjeta tarjeta, string fecha, string descripcion, string monto, string tipo)
+        public clsEstadoCuenta(string fecha, string descripcion, string monto, string tipo)
         {                  
             this.fecha = fecha;
             this.descripcion = descripcion;
@@ -27,7 +27,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
             int temp = fecha.CompareTo(cuenta.fecha);
             if (temp == 0)
                 return true;
-            else return false;
+            else return true;
         }
 
         public bool menorQue(object q)
@@ -36,7 +36,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
             int temp = fecha.CompareTo(cuenta.fecha);
             if (temp == -1)
                 return true;
-            else return false;
+            else return true;
         }
 
         public bool menorIgualQue(object q)
@@ -50,12 +50,17 @@ namespace tarjetasDeCredito_proyecto1III.Models
             int temp = fecha.CompareTo(cuenta.fecha);
             if (temp == 1)
                 return true;
-            else return false;
+            else return true;
         }
 
         public bool mayorIgualQue(object q)
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return $"{fecha} | {monto} | {tipo} | {descripcion}";
         }
     }
 }

@@ -2,21 +2,76 @@
   {
     "nombreTarjeta": "Rodrigo Galindo",
     "numTarjeta": "784515958",
-    "saldo": "6000",
+    "saldo": "6350",
     "banco": "BANRURAL",
     "tipo": "Visa",
+    "correo": "rgalindos@miumg.edu.gt",
     "estadoCuenta": [
       {
         "fecha": "2024-04-20",
         "descripcion": "Depósito de salario",
-        "monto": 3000.00,
+        "monto": "3000.00",
         "tipo": "Depósito"
       },
       {
         "fecha": "2024-04-22",
         "descripcion": "Compra en supermercado",
-        "monto": -100.00,
+        "monto": "-100.00",
         "tipo": "Débito"
+      },
+      {
+        "fecha": "08:57:36 AM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-200",
+        "tipo": "Débito"
+      },
+      {
+        "fecha": "08:57:51 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "500",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "11:32:55 PM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-200",
+        "tipo": "Débito"
+      },
+      {
+        "fecha": "26/04/2024 07:49:40 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "150",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 07:51:56 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "100",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 07:59:00 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "100",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 08:04:25 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "100",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 08:07:30 AM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-200",
+        "tipo": "Débito"
+      },
+      {
+        "fecha": "26/04/2024 08:14:12 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "100",
+        "tipo": "Deposito"
       }
     ]
   },
@@ -26,17 +81,18 @@
     "saldo": "5219.63",
     "banco": "BI",
     "tipo": "Mastercard",
+    "correo": "rgalindos@miumg.edu.gt",
     "estadoCuenta": [
       {
         "fecha": "2024-04-18",
         "descripcion": "Transferencia entrante",
-        "monto": 2000.00,
+        "monto": "2000.00",
         "tipo": "Depósito"
       },
       {
         "fecha": "2024-04-23",
         "descripcion": "Pago de factura de luz",
-        "monto": -200.00,
+        "monto": "-200.00",
         "tipo": "Débito"
       }
     ]
@@ -47,17 +103,18 @@
     "saldo": "281.12",
     "banco": "BI",
     "tipo": "Visa",
+    "correo": "rgalindos@miumg.edu.gt",
     "estadoCuenta": [
       {
         "fecha": "2024-04-19",
         "descripcion": "Depósito de ahorros",
-        "monto": 100.00,
+        "monto": "100.00",
         "tipo": "Depósito"
       },
       {
         "fecha": "2024-04-21",
         "descripcion": "Retiro de cajero automático",
-        "monto": -50.00,
+        "monto": "-50.00",
         "tipo": "Débito"
       }
     ]
@@ -65,21 +122,46 @@
   {
     "nombreTarjeta": "Juana Santos",
     "numTarjeta": "159963258",
-    "saldo": "5081.12",
+    "saldo": "5170.12",
     "banco": "BANTRAB",
     "tipo": "Visa",
+    "correo": "rgalindos@miumg.edu.gt",
     "estadoCuenta": [
       {
         "fecha": "2024-04-17",
         "descripcion": "Depósito de salario",
-        "monto": 3500.00,
+        "monto": "3500.00",
         "tipo": "Depósito"
       },
       {
-        "fecha": "2024-04-17",
+        "fecha": "2024-04-24",
         "descripcion": "Compra en línea",
-        "monto": -200.00,
+        "monto": "-200.00",
         "tipo": "Débito"
+      },
+      {
+        "fecha": "26/04/2024 08:27:06 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "50",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 08:28:04 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "12",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 08:35:52 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "15",
+        "tipo": "Deposito"
+      },
+      {
+        "fecha": "26/04/2024 08:36:19 AM",
+        "descripcion": "Deposito de dinero",
+        "monto": "12",
+        "tipo": "Deposito"
       }
     ]
   }
