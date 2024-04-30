@@ -16,12 +16,13 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
     [ApiController]
     [Route("tarjeta")]
     public class TarjetaController : ControllerBase
-    {
-        clsArbolBinarioBusqueda arbol = new clsArbolBinarioBusqueda();
+    {        
         Queue<clsTarjetaRetiro> queColaMonto = new Queue<clsTarjetaRetiro>();
-        clsTarjeta notFound = new clsTarjeta("Not found", "Not found", "Not found", "Not found", "Not found", "Not found","Not found");
-        Queue<clsCorreoObj>  colaMensajes = new Queue<clsCorreoObj>();
-        LinkedList<clsCambioPin> lklistCambioPin = new LinkedList<clsCambioPin>(); 
+        clsTarjeta notFound = new clsTarjeta("Not found", "Not found", "Not found", "Not found", "Not found", "Not found", "Not found", false, "Not found");
+        Queue<clsCorreoObj> colaMensajes = new Queue<clsCorreoObj>();
+        LinkedList<clsCambioPin> lklistCambioPin = new LinkedList<clsCambioPin>();
+        clsArbolBinarioBusqueda bloqueoTarjetas = new clsArbolBinarioBusqueda();
+        Stack<clsTarjeta> aumentoLimite = new Stack<clsTarjeta>();
 
         private readonly IWebHostEnvironment _hostingEnvironment;
 
@@ -31,13 +32,13 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         }
 
         [HttpGet]
-        [Route ("listar")]
+        [Route("listar")]
         public dynamic apiListarTarjeta(string strNombreTarjeta)
         {
             var resultado = fncListarTarjetas(strNombreTarjeta);
-            
+
             if (!resultado[0].nombreTarjeta.Equals("Not found") //&& fncCheckToken()
-                )                 
+                )
             {
 
                 return resultado;
@@ -45,8 +46,8 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
             }
             else
             {
-                return "Access Denied or not found + "+ resultado[0].nombreTarjeta;
-            }    
+                return "Access Denied or not found + " + resultado[0].nombreTarjeta;
+            }
 
         }
 
@@ -76,28 +77,28 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
 
         }
 
-       
+
         [HttpPut]
         [Route("actualizar_saldo/{strNumTarjeta}/monto")]
-        public dynamic apiActualizarSaldo(string strNumTarjeta, [FromBody]decimal monto)
+        public dynamic apiActualizarSaldo(string strNumTarjeta, [FromBody] decimal monto)
         {
 
             queColaMonto.Enqueue(new clsTarjetaRetiro(fncListarTarjetasNumTarjeta(strNumTarjeta).First(), monto));
             return fncRetirar(queColaMonto);
-            
+
         }
 
         [HttpGet]
         [Route("estado_cuenta")]
         public dynamic apiEstadoCuenta(string strNumTarjeta)
         {
-            
-            List<clsTarjetaEstadoCuenta> a = fncListarTarjetasNumTarjetaEstadoCuenta(strNumTarjeta);         
+
+            List<clsTarjetaEstadoCuenta> a = fncListarTarjetasNumTarjetaEstadoCuenta(strNumTarjeta);
             clsTarjetaArbol ta = new clsTarjetaArbol();
-            
+
             foreach (var item in a)
             {
-                ta = new clsTarjetaArbol(item.nombreTarjeta,item.numTarjeta,item.saldo,item.banco,item.tipo);
+                ta = new clsTarjetaArbol(item.nombreTarjeta, item.numTarjeta, item.saldo, item.banco, item.tipo);
                 ta.arbolEstado = new clsArbolBinarioBusqueda();
 
                 if (item.estadoCuenta != null)
@@ -105,11 +106,11 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
                     ta.insertEstadoCuentas(item.estadoCuenta);
                 }
 
-                
-                
+
+
             }
             string data = clsArbolBinarioBusqueda.inorden(ta.arbolEstado.raizArbol());
-            return $"{ta.nombreTarjeta} - {ta.numTarjeta} - {data}";
+            return $"{ta.nombreTarjeta} - {ta.numTarjeta} - {ta.tipo} \r\n{data}";
 
 
         }
@@ -142,10 +143,10 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
             }
 
             StringBuilder sb = new StringBuilder();
-            while (stkMovimiento.Count>0)
+            while (stkMovimiento.Count > 0)
             {
                 sb.Append(stkMovimiento.Pop().ToString() + " | \r\n");
-                
+
             }
 
 
@@ -158,15 +159,56 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
 
         }
 
-        [HttpPut("cambiar_pin/{strNumTarjeta}/pin")]
+        [HttpPut]
+        [Route("cambiar_pin/{strNumTarjeta}/pin")]
         public dynamic apiCambiarPin(string strNumTarjeta, [FromBody] string nuevoPin)
         {
-            lklistCambioPin.AddLast(new clsCambioPin(strNumTarjeta,nuevoPin));
+            lklistCambioPin.AddLast(new clsCambioPin(strNumTarjeta, nuevoPin));
 
-            mtdActualizarPinEnJSON(strNumTarjeta, nuevoPin);
 
-            return "Done";
+            string temp = leerLista();
+            if (temp.ToUpper().Equals("OK"))
+                return "Su solicitud ha sido recibida, espere el correo para saber como va su proceso ";
+            return "Access Denied or not found";
         }
+
+        [HttpPut]
+        [Route("bloqueo_temporal/{strNumTarjeta}/YN")]
+        public dynamic apiBloqueoTemporal(string strNumTarjeta, [FromBody] string YN)
+        {
+
+            if(YN.ToUpper().Equals("YES") || YN.ToUpper().Equals("SI") || YN.ToUpper().Equals("TRUE"))
+            {
+                clsTarjeta tjBl = new clsTarjeta(strNumTarjeta,true);
+                bloqueoTarjetas.insertar(tjBl);
+                if(bloqueoArbol(strNumTarjeta).ToUpper().Equals("OK"))
+                    return "Ha solicitado el bloqueo temporal de su tarjeta revise su correo para confirmar el inicio del proceso";
+                return "Algo ha salido mal, comuniquese con el banco para seguir con su proceso";
+            }
+            else if(YN.ToUpper().Equals("NO") || YN.ToUpper().Equals("NO")|| YN.ToUpper().Equals("FALSE"))
+            {
+                clsTarjeta tjBl = new clsTarjeta(strNumTarjeta, false);
+                bloqueoTarjetas.insertar(tjBl);
+                if(bloqueoArbol(strNumTarjeta).ToUpper().Equals("OK"))
+                    return "Ha solicitado quitar el bloqueo temporal de la tarjeta, revise su correo para confirmar el inicio del proceso";
+                return "Algo ha salido mal, comuniquese con el banco para seguir con su proceso";
+            }
+            else
+            {
+                return "Access Denied or not found";
+            }
+
+        }
+
+        [HttpPut]
+        [Route("limite_de_credito/{strNumTarjeta}/nuevoLimite")]
+        public dynamic apiIncrementoLimite(string strNumTarjeta, [FromBody] string nuevoLimite)
+        {
+            aumentoLimite.Push(new clsTarjeta(strNumTarjeta,nuevoLimite));
+
+            return incrementoLimite();
+        }
+
 
 
 
@@ -191,7 +233,26 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
 
         
 
+        private string leerLista()
+        {
+            foreach(var item in lklistCambioPin)
+            {
+                return mtdActualizarPinEnJSON(item.strNumTarjeta, item.strPin);
+            }
+            return "";
+        }
 
+        private string bloqueoArbol(string strNumTarjeta)
+        {
+            clsTarjeta tj = (clsTarjeta)bloqueoTarjetas.buscarIterativo(new clsTarjeta(strNumTarjeta)).valorNodo();
+            return fncBloqeuarTarjeta(tj.numTarjeta, tj.bloqueoTemporal);
+        }
+
+        private string incrementoLimite()
+        {
+            clsTarjeta tj = aumentoLimite.Pop();
+            return fncLimiteTarjeta(tj.numTarjeta,tj.limiteCredito);
+        }
 
 
         private void mtdActualizarSaldoEnJson(string strNumeroTarjeta, decimal montoRetiro)
@@ -252,6 +313,9 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
                 throw new Exception("No se encontró la tarjeta especificada.");
             }
         }
+
+
+
 
 
         private void mtdEnviarCorreo()
@@ -374,46 +438,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         }
 
 
-
-        //public bool fncCambiarPin(string strNumTarjeta, string nuevoPin)
-        //{
-        //    try
-        //    {
-        //        // Leer el JSON desde el archivo
-        //        string nombreArchivo = "tarjetas_datos.json";
-        //        string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources",
-        //            nombreArchivo);
-        //        string json = System.IO.File.ReadAllText(rutaArchivo);
-        //        List<clsTarjetaEstadoCuenta> tarjetas = JsonConvert.DeserializeObject<List<clsTarjetaEstadoCuenta>>(json);
-
-        //        // Buscar la tarjeta con el ID proporcionado
-        //        var tarjeta = tarjetas.FirstOrDefault(t => t.numTarjeta == strNumTarjeta);
-
-        //        if (tarjeta != null)
-        //        {
-        //            // Actualizar el PIN de la tarjeta
-        //            tarjeta.pin = nuevoPin;
-
-        //            // Re-serializar la lista de objetos de vuelta a JSON
-        //            string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
-
-        //            // Escribir el JSON actualizado de vuelta al archivo
-        //            System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
-
-        //            return false;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        private void mtdActualizarPinEnJSON(string strNumeroTarjeta, string nuevoPin)
+        private string mtdActualizarPinEnJSON(string strNumeroTarjeta, string nuevoPin)
         {
             string nombreArchivo = "tarjetas_datos.json";
             string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources", nombreArchivo);
@@ -430,6 +455,11 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
                 // Actualizar el pin de la tarjeta
                 tarjeta.pin = nuevoPin;
 
+                //correo usuario
+                string cuerpoMensaje = $"Querido {tarjeta.nombreTarjeta}, su PIN de seguridad ha sido actualizado con exito.\r\nSu nuevo PIN es: {tarjeta.pin}";
+                string correoUsuario = tarjeta.correo.ToString();
+                string subjectMensaje = $"Cambio de PIN de Seguridad AMIGO {tarjeta.banco}";
+
                 // Re-serializar la lista de objetos de vuelta a JSON
                 string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
 
@@ -437,11 +467,126 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
                 System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
 
 
-
+                clsCorreoObj correoUsuarioObj = new clsCorreoObj(correoUsuario, cuerpoMensaje, subjectMensaje);
+                colaMensajes.Enqueue(correoUsuarioObj);
+                mtdEnviarCorreo();
+                return "OK";
             }
             else
             {
-                throw new Exception("No se encontró la tarjeta especificada.");
+                return ("No se encontró la tarjeta especificada.");
+            }
+        }
+
+        private string fncBloqeuarTarjeta(string strNumeroTarjeta, bool isBlocked)
+        {
+            string nombreArchivo = "tarjetas_datos.json";
+            string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources", nombreArchivo);
+
+
+            string json = System.IO.File.ReadAllText(rutaArchivo);
+            List<clsTarjetaEstadoCuenta> tarjetas = JsonConvert.DeserializeObject<List<clsTarjetaEstadoCuenta>>(json);
+
+            // Buscar la tarjeta cuyo saldo se va a actualizar
+            var tarjeta = tarjetas.FirstOrDefault(t => t.numTarjeta.ToUpper() == strNumeroTarjeta.ToUpper());
+
+            if (tarjeta != null)
+            {
+                // Actualizar el bloqueo de la tarjeta
+                tarjeta.bloqueoTemporal = isBlocked;
+
+                //correo usuario
+                string cuerpoMensaje = $"Querido {tarjeta.nombreTarjeta}, su Tarjeta: {tarjeta.numTarjeta} ha sido desbloqueada. \r\n" +
+                    $"Para mas informacion comuniquese con el banco {tarjeta.banco}";
+                string subjectMensaje = $"Solicitud de desbloqueo de tarjeta {tarjeta.banco}, {tarjeta.tipo}";
+
+                if (isBlocked)
+                {
+                    cuerpoMensaje = $"Querido {tarjeta.nombreTarjeta}, su Tarjeta: {tarjeta.numTarjeta} ha sido bloqueada temporalmente. \r\n" +
+                    $"Para mas informacion comuniquese con el banco {tarjeta.banco}";
+                     subjectMensaje = $"Solicitud de bloquedo temporal de tarjeta {tarjeta.banco}, {tarjeta.tipo}";
+                }
+                 
+                string correoUsuario = tarjeta.correo.ToString();
+                
+
+                // Re-serializar la lista de objetos de vuelta a JSON
+                string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
+
+                // Escribir el JSON actualizado de vuelta al archivo
+                System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
+
+
+                clsCorreoObj correoUsuarioObj = new clsCorreoObj(correoUsuario, cuerpoMensaje, subjectMensaje);
+                colaMensajes.Enqueue(correoUsuarioObj);
+                mtdEnviarCorreo();
+                return "OK";
+            }
+            else
+            {
+                return ("No se encontró la tarjeta especificada.");
+            }
+        }
+
+        private string fncLimiteTarjeta(string strNumeroTarjeta, string nuevoLimite)
+        {
+            string nombreArchivo = "tarjetas_datos.json";
+            string rutaArchivo = Path.Combine(_hostingEnvironment.ContentRootPath, "Resources", nombreArchivo);
+
+
+            string json = System.IO.File.ReadAllText(rutaArchivo);
+            List<clsTarjetaEstadoCuenta> tarjetas = JsonConvert.DeserializeObject<List<clsTarjetaEstadoCuenta>>(json);
+
+            // Buscar la tarjeta cuyo saldo se va a actualizar
+            var tarjeta = tarjetas.FirstOrDefault(t => t.numTarjeta.ToUpper() == strNumeroTarjeta.ToUpper());
+
+            if (tarjeta != null)
+            {
+                if (tarjeta.tipo.ToUpper().Contains("CREDITO"))
+                {
+                    //correo usuario                                                            
+                    string correoUsuario = tarjeta.correo.ToString();
+                    string cuerpoMensaje = "";
+                    string subjectMensaje = $"Solicitud de cambio de limite de credito a tarjeta {tarjeta.banco}, {tarjeta.tipo}";
+                    if (decimal.Parse(tarjeta.limiteCredito) > decimal.Parse(nuevoLimite))
+                    {
+                        
+                        cuerpoMensaje = $"Querido {tarjeta.nombreTarjeta}, a su Tarjeta: {tarjeta.numTarjeta} le hemos disminuido el limite de credito maximo.\r\n" +
+                            $"De {tarjeta.limiteCredito} a {nuevoLimite} \r\n" +
+                        $"Para mas informacion comuniquese con el banco {tarjeta.banco}";
+                    }
+                    else
+                    {
+                        cuerpoMensaje = $"Querido {tarjeta.nombreTarjeta}, a su Tarjeta: {tarjeta.numTarjeta} le hemos aumentado el limite de credito maximo.\r\n" +
+                           $"De {tarjeta.limiteCredito} a {nuevoLimite} \r\n" +
+                       $"Para mas informacion comuniquese con el banco {tarjeta.banco}";
+                    }
+
+                    // Actualizar el limite de credito de la tarjeta
+                    tarjeta.limiteCredito = nuevoLimite;
+                    
+
+
+                    // Re-serializar la lista de objetos de vuelta a JSON
+                    string nuevoJson = JsonConvert.SerializeObject(tarjetas, Formatting.Indented);
+
+                    // Escribir el JSON actualizado de vuelta al archivo
+                    System.IO.File.WriteAllText(rutaArchivo, nuevoJson);
+
+
+                    clsCorreoObj correoUsuarioObj = new clsCorreoObj(correoUsuario, cuerpoMensaje, subjectMensaje);
+                    colaMensajes.Enqueue(correoUsuarioObj);
+                    mtdEnviarCorreo();
+                    return "Se ha recibido la solicitud, espere un correo electronico para confirmar";
+                }
+                else
+                {
+                    return "Limite de credito NO aplica a tarjetas de Debito";
+                }
+            }
+            else
+            {
+                return ("No se encontró la tarjeta especificada.");
             }
         }
 

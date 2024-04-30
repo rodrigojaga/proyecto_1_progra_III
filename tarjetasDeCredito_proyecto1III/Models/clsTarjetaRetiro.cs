@@ -7,6 +7,7 @@
         public decimal dclMontoARetirar { get; set; }
         
         public clsTarjetaRetiro(clsTarjeta tarjetaAretirar, decimal dclMontoARetirar)
+
         {
             this.tarjetaAretirar = tarjetaAretirar;
             this.dclMontoARetirar = dclMontoARetirar;

@@ -4,9 +4,11 @@
     "numTarjeta": "784515958",
     "saldo": "6348.27",
     "banco": "BANRURAL",
-    "tipo": "Visa",
+    "tipo": "Credito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
-    "pin": "777",
+    "pin": "666",
+    "bloqueoTemporal": false,
+    "limiteCredito": "2000",
     "estadoCuenta": [
       {
         "fecha": "2024/04/20",
@@ -93,9 +95,11 @@
     "numTarjeta": "951456213",
     "saldo": "5219.63",
     "banco": "BI",
-    "tipo": "Mastercard",
+    "tipo": "Debito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
     "pin": "123",
+    "bloqueoTemporal": false,
+    "limiteCredito": "No Aplica",
     "estadoCuenta": [
       {
         "fecha": "2024-04-18",
@@ -116,9 +120,11 @@
     "numTarjeta": "789789465",
     "saldo": "281.12",
     "banco": "BI",
-    "tipo": "Visa",
+    "tipo": "Credito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
     "pin": "123",
+    "bloqueoTemporal": false,
+    "limiteCredito": "3000",
     "estadoCuenta": [
       {
         "fecha": "2024-04-19",
@@ -139,9 +145,11 @@
     "numTarjeta": "159963258",
     "saldo": "5070.12",
     "banco": "BANTRAB",
-    "tipo": "Visa",
+    "tipo": "Credito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
     "pin": "123",
+    "bloqueoTemporal": false,
+    "limiteCredito": "1000",
     "estadoCuenta": [
       {
         "fecha": "2024-04-17",
