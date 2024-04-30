@@ -1,15 +1,18 @@
 ﻿namespace tarjetasDeCredito_proyecto1III.Models
 {
-    public class clsTarjetaRetiro
+    /// <summary>
+    /// clase que existe para auxiliar a la superclase clsTarjeta
+    /// agregando un monto a retirar
+    /// </summary>
+    public class clsTarjetaRetiro: clsTarjeta
     {
-
-        public clsTarjeta tarjetaAretirar { get; set; }
+        
         public decimal dclMontoARetirar { get; set; }
         
-        public clsTarjetaRetiro(clsTarjeta tarjetaAretirar, decimal dclMontoARetirar)
+        public clsTarjetaRetiro(string  strNumTarjeta, decimal dclMontoARetirar)
+            :base(strNumTarjeta)
 
-        {
-            this.tarjetaAretirar = tarjetaAretirar;
+        {            
             this.dclMontoARetirar = dclMontoARetirar;
         }
     }

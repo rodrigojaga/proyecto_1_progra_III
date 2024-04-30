@@ -2,28 +2,29 @@
 
 namespace tarjetasDeCredito_proyecto1III.Models
 {
+    /// <summary>
+    /// esta clase hereda de la superclase clsTarjeta los atributos que necesita
+    /// utiliza un arbol binario de busqueda para almacenar los estados de cuenta del objeto obtenido del JSON
+    /// </summary>
     public class clsTarjetaArbol:clsTarjeta
     {
 
-        //public string nombreTarjeta { get; set; }
-        //public string numTarjeta { get; set; }
-        //public string saldo { get; set; }
-        //public string banco { get; set; }
-        //public string tipo { get; set; }
         public clsArbolBinarioBusqueda arbolEstado { get; set; }
 
-
-
-        public clsTarjetaArbol(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo, string pin, bool bloqueoTemporal, string limiteCredito, clsArbolBinarioBusqueda arbolEstado)
-            : base(nombreTarjeta, numTarjeta, saldo, banco, tipo,correo,pin, bloqueoTemporal,limiteCredito)
-        {
-            this.arbolEstado = arbolEstado;
-        }
-
+        /// <summary>
+        /// constructor vacio
+        /// </summary>
         public clsTarjetaArbol() : base() { }
 
-        public clsTarjetaArbol(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo)
-            //:base(nombreTarjeta, numTarjeta, saldo, banco, tipo)
+        /// <summary>
+        /// Constructor de los campos
+        /// </summary>
+        /// <param name="nombreTarjeta"></param>
+        /// <param name="numTarjeta"></param>
+        /// <param name="saldo"></param>
+        /// <param name="banco"></param>
+        /// <param name="tipo"></param>
+        public clsTarjetaArbol(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo)            
         {
             this.nombreTarjeta = nombreTarjeta;
             this.numTarjeta = numTarjeta;
@@ -33,6 +34,11 @@ namespace tarjetasDeCredito_proyecto1III.Models
 
         }
 
+        /// <summary>
+        /// Metodo utilizado para leer los estados de cuenta provenientes del JSON
+        /// Seran almacenados en el arbol binario de busqueda
+        /// </summary>
+        /// <param name="estadosCuenta"></param>
         public void insertEstadoCuentas(List<clsEstadoCuenta> estadosCuenta)
         {
             if (estadosCuenta != null)
@@ -43,13 +49,7 @@ namespace tarjetasDeCredito_proyecto1III.Models
                 }
             }
         }
-
-        
-
-        public override string ToString()
-        {
-            return $"{nombreTarjeta} - {saldo} ";
-        }
+     
 
     }
 }

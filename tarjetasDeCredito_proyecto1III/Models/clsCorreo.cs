@@ -7,6 +7,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace tarjetasDeCredito_proyecto1III.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class clsCorreo
     {
         //En esta clase se encuentra una contraseña de ejemplo y un correo
@@ -17,6 +20,14 @@ namespace tarjetasDeCredito_proyecto1III.Models
         private string strCorreo = "rjgs004t@gmail.com";
         private string strAlias = "Developer";
 
+        /// <summary>
+        /// Metodo publico que crea el correo a enviar al usuario
+        /// Con este metodo es con el que se interactua
+        /// </summary>
+        /// <param name="strCorreoUsuario"></param>
+        /// <param name="strSubject"></param>
+        /// <param name="strMensaje"></param>
+        /// <returns></returns>
         public string fncCrearMensajeP(string strCorreoUsuario, string strSubject, string strMensaje)
         {
             try
@@ -28,6 +39,14 @@ namespace tarjetasDeCredito_proyecto1III.Models
             } catch (Exception e) { return e.Message; }
         }
 
+        /// <summary>
+        /// Metodo encargado de crear el correo en cuestion
+        /// </summary>
+        /// <param name="strCorreoUsuario"></param>
+        /// <param name="strSubject"></param>
+        /// <param name="strMensaje"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private MailMessage fncCuerpoMetodo(string strCorreoUsuario, string strSubject, string strMensaje)
         {
             try
@@ -50,6 +69,11 @@ namespace tarjetasDeCredito_proyecto1III.Models
             }
         }
 
+        /// <summary>
+        /// Metodo encargado de enviar el correo al usuario 
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
         private string fncEnviarMensaje(MailMessage mail)
         {
             try

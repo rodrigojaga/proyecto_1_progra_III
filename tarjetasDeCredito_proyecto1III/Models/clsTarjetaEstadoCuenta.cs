@@ -2,84 +2,37 @@
 
 namespace tarjetasDeCredito_proyecto1III.Models
 {
-    public class clsTarjetaEstadoCuenta:interfaceComparador
+    /// <summary>
+    /// Clase que es utilizada para leer los archivos del Json y luego tomar los estados de cuenta 
+    /// hereda de la superclase clsTarjeta
+    /// </summary>
+    public class clsTarjetaEstadoCuenta: clsTarjeta
     {
 
-        public string nombreTarjeta { get; set; }
-        public string numTarjeta { get; set; }
-        public string saldo { get; set; }
-        public string banco { get; set; }
-        public string tipo { get; set; }
-        public string correo {  get; set; }
-        public string pin { get; set; }
-        public bool bloqueoTemporal { get; set; }
-        public string limiteCredito { get; set; }
         public List<clsEstadoCuenta> estadoCuenta { get; set; }
 
-
-
-        //public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, List<clsEstadoCuenta> estadoCuenta)
-        //{
-        //    this.nombreTarjeta = nombreTarjeta;
-        //    this.numTarjeta = numTarjeta;
-        //    this.saldo = saldo;
-        //    this.banco = banco;
-        //    this.tipo = tipo;
-        //    this.estadoCuenta = estadoCuenta;
-        //}
-
+        /// <summary>
+        /// Constructor con los datos necesarios para hacer un objeto
+        /// de tipo clsTarjetaEstadoCuenta
+        /// </summary>
+        /// <param name="nombreTarjeta"></param>
+        /// <param name="numTarjeta"></param>
+        /// <param name="saldo"></param>
+        /// <param name="banco"></param>
+        /// <param name="tipo"></param>
+        /// <param name="correo"></param>
+        /// <param name="pin"></param>
+        /// <param name="bloqueoTemporal"></param>
+        /// <param name="limiteCredito"></param>
+        /// <param name="estadoCuenta"></param>
         public clsTarjetaEstadoCuenta(string nombreTarjeta, string numTarjeta, string saldo, string banco, string tipo, string correo, string pin, bool bloqueoTemporal, string limiteCredito
                                                                                                                         , List<clsEstadoCuenta> estadoCuenta)
+            :base(nombreTarjeta, numTarjeta, saldo, banco, tipo, correo, pin, bloqueoTemporal,limiteCredito)
         {
-            this.nombreTarjeta = nombreTarjeta;
-            this.numTarjeta = numTarjeta;
-            this.saldo = saldo;
-            this.banco = banco;
-            this.tipo = tipo;
-            this.correo = correo;
-            this.pin = pin;
-            this.bloqueoTemporal = bloqueoTemporal;
-            this.limiteCredito = limiteCredito;
             this.estadoCuenta = estadoCuenta;
         }
 
         public clsTarjetaEstadoCuenta() { }
 
-        public bool igualQue(object q)
-        {
-            clsTarjetaEstadoCuenta cuenta = (clsTarjetaEstadoCuenta)q;
-            int temp = numTarjeta.CompareTo(cuenta.numTarjeta);
-            if (temp == 0)
-                return true;
-            else return false;
-        }
-
-        public bool menorQue(object q)
-        {
-            clsTarjetaEstadoCuenta cuenta = (clsTarjetaEstadoCuenta)q;
-            int temp = numTarjeta.CompareTo(cuenta.numTarjeta);
-            if (temp == -1)
-                return true;
-            else return false;
-        }
-
-        public bool menorIgualQue(object q)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool mayorQue(object q)
-        {
-            clsTarjetaEstadoCuenta cuenta = (clsTarjetaEstadoCuenta)q;
-            int temp = numTarjeta.CompareTo(cuenta.numTarjeta);
-            if (temp == 1)
-                return true;
-            else return false;
-        }
-
-        public bool mayorIgualQue(object q)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

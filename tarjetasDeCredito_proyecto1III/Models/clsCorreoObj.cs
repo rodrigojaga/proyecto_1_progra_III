@@ -1,5 +1,9 @@
 ﻿namespace tarjetasDeCredito_proyecto1III.Models
 {
+    /// <summary>
+    /// Clase creada para crear objetos con la informacion necesaria para 
+    /// Notificar a los usuarios sobre sus solicitudes
+    /// </summary>
     public class clsCorreoObj
     {
 

@@ -1,14 +1,5 @@
 [
   {
-    "nombreTarjeta": "Rodrigo Galindo",
-    "numTarjeta": "784515958",
-    "saldo": "6348.27",
-    "banco": "BANRURAL",
-    "tipo": "Credito - Visa",
-    "correo": "rgalindos@miumg.edu.gt",
-    "pin": "666",
-    "bloqueoTemporal": false,
-    "limiteCredito": "2000",
     "estadoCuenta": [
       {
         "fecha": "2024/04/20",
@@ -87,19 +78,37 @@
         "descripcion": "Pago X Servicio",
         "monto": "-50.23",
         "tipo": "Débito"
+      },
+      {
+        "fecha": "30/04/2024 02:03:25 PM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-500",
+        "tipo": "Débito"
+      },
+      {
+        "fecha": "30/04/2024 02:15:58 PM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-100",
+        "tipo": "Débito"
+      },
+      {
+        "fecha": "30/04/2024 02:23:58 PM",
+        "descripcion": "Pago X Servicio",
+        "monto": "-150",
+        "tipo": "Débito"
       }
-    ]
+    ],
+    "nombreTarjeta": "Rodrigo Galindo",
+    "numTarjeta": "784515958",
+    "saldo": "5598.27",
+    "banco": "BANRURAL",
+    "tipo": "Credito - Visa",
+    "correo": "rgalindos@miumg.edu.gt",
+    "pin": "456",
+    "bloqueoTemporal": true,
+    "limiteCredito": "2500"
   },
   {
-    "nombreTarjeta": "Rodrigo Galindo",
-    "numTarjeta": "951456213",
-    "saldo": "5219.63",
-    "banco": "BI",
-    "tipo": "Debito - Visa",
-    "correo": "rgalindos@miumg.edu.gt",
-    "pin": "123",
-    "bloqueoTemporal": false,
-    "limiteCredito": "No Aplica",
     "estadoCuenta": [
       {
         "fecha": "2024-04-18",
@@ -113,18 +122,18 @@
         "monto": "-200.00",
         "tipo": "Débito"
       }
-    ]
-  },
-  {
-    "nombreTarjeta": "Silvia Martinez",
-    "numTarjeta": "789789465",
-    "saldo": "281.12",
+    ],
+    "nombreTarjeta": "Rodrigo Galindo",
+    "numTarjeta": "951456213",
+    "saldo": "5219.63",
     "banco": "BI",
-    "tipo": "Credito - Visa",
+    "tipo": "Debito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
     "pin": "123",
     "bloqueoTemporal": false,
-    "limiteCredito": "3000",
+    "limiteCredito": "No Aplica"
+  },
+  {
     "estadoCuenta": [
       {
         "fecha": "2024-04-19",
@@ -138,18 +147,18 @@
         "monto": "-50.00",
         "tipo": "Débito"
       }
-    ]
-  },
-  {
-    "nombreTarjeta": "Juana Santos",
-    "numTarjeta": "159963258",
-    "saldo": "5070.12",
-    "banco": "BANTRAB",
+    ],
+    "nombreTarjeta": "Silvia Martinez",
+    "numTarjeta": "789789465",
+    "saldo": "281.12",
+    "banco": "BI",
     "tipo": "Credito - Visa",
     "correo": "rgalindos@miumg.edu.gt",
     "pin": "123",
     "bloqueoTemporal": false,
-    "limiteCredito": "1000",
+    "limiteCredito": "3000"
+  },
+  {
     "estadoCuenta": [
       {
         "fecha": "2024-04-17",
@@ -193,6 +202,15 @@
         "monto": "-100",
         "tipo": "Débito"
       }
-    ]
+    ],
+    "nombreTarjeta": "Juana Santos",
+    "numTarjeta": "159963258",
+    "saldo": "5070.12",
+    "banco": "BANTRAB",
+    "tipo": "Credito - Visa",
+    "correo": "rgalindos@miumg.edu.gt",
+    "pin": "123",
+    "bloqueoTemporal": false,
+    "limiteCredito": "1000"
   }
 ]
