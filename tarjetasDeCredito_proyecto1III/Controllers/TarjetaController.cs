@@ -32,7 +32,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         /// Este endpoint busca todas las tarjetas que tengan el nombre ingresado
         /// </summary>
         /// <param name="strNombreTarjeta"></param>
-        /// <returns></returns>
+        /// <returns>objectos en JSON que cuentan con la caracteristica ingresada</returns>
         [HttpGet]
         [Route("listar")]
         public dynamic apiListarTarjeta(string strNombreTarjeta)
@@ -40,8 +40,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
             clsApiListarTarjetas conn = new clsApiListarTarjetas(_hostingEnvironment);
             var resultado = conn.fncListarTarjetas(strNombreTarjeta);
 
-            if (!resultado[0].nombreTarjeta.Equals("Not found") //&& fncCheckToken()
-                )
+            if (!resultado[0].nombreTarjeta.Equals("Not found") && fncCheckToken())
             {
 
                 return resultado;
@@ -49,7 +48,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
             }
             else
             {
-                return "Access Denied or not found + " + resultado[0].nombreTarjeta;
+                return "Access Denied or not found";
             }
 
         }
@@ -59,7 +58,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         /// con el numero de tarjeta ingresado
         /// </summary>
         /// <param name="strNumTarjeta"></param>
-        /// <returns></returns>
+        /// <returns>un String con los datos que cumplen con los parametros </returns>
         [HttpGet]
         [Route("listar/saldo")]
         public dynamic apiListarSaldo(string strNumTarjeta)
@@ -67,7 +66,7 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
             clsApiBuscarNumTarjeta conn = new clsApiBuscarNumTarjeta(_hostingEnvironment);
             var resultado = conn.fncListarSaldos(strNumTarjeta);
 
-            if (!resultado.First.Value.nombreTarjeta.Equals("Not found") //&& fncCheckToken()
+            if (!resultado.First.Value.nombreTarjeta.Equals("Not found") && fncCheckToken()
                 )
             {
 
@@ -96,14 +95,14 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         /// <param name="monto"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("actualizar_saldo/{strNumTarjeta}/monto")]
+        [Route("pago_tarjeta/{strNumTarjeta}/monto")]
         public dynamic apiActualizarSaldo(string strNumTarjeta, [FromBody] decimal monto)
         {
             clsApiCambiarMonto conn = new clsApiCambiarMonto(_hostingEnvironment);
             queColaMonto.Enqueue(new clsTarjetaRetiro(strNumTarjeta, monto));
             string aux = conn.fncRetirar(queColaMonto);
             if (aux.ToUpper().Contains("OK"))
-                return "Saldo actualizado";
+                return "Saldo actualizado y se le ha notificado al usuario";
             else return aux;
 
         }
@@ -306,6 +305,10 @@ namespace tarjetasDeCredito_proyecto1III.Controllers
         {
             string tokenAuthentication = Request.Headers.Where(x => 
             x.Key == "Authorization").FirstOrDefault().Value;
+            if (tokenAuthentication == null)
+            {
+                return false;
+            }
             
             return tokenAuthentication.Equals("token");
         }

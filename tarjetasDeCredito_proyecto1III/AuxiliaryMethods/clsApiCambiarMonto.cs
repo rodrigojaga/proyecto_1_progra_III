@@ -30,14 +30,14 @@ namespace tarjetasDeCredito_proyecto1III.AuxiliaryMethods
 
             clsTarjetaRetiro a = tarjeta.Dequeue();
 
-            try
-            {
+            //try
+            //{
                 return mtdActualizarSaldoEnJson(a.numTarjeta, a.dclMontoARetirar);
-            }
-            catch (Exception ex)
-            {
-                return $"Error al actualizar el saldo: {ex.Message}";
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return $"Error al actualizar el saldo: {ex.Message}";
+            //}
 
         }
 
@@ -62,23 +62,35 @@ namespace tarjetasDeCredito_proyecto1III.AuxiliaryMethods
             clsEstadoCuenta newEstadoCuenta = new clsEstadoCuenta();
             string cuerpoMensaje = "";
             string subjectMensaje = "";
-            if (montoRetiro < 0)
-            {
-                newEstadoCuenta = new clsEstadoCuenta(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString(), "Pago X Servicio", montoRetiro.ToString(), "Débito");
-                cuerpoMensaje += $"Pago X Servicio o producto | {montoRetiro.ToString()} el dia {DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString()} ";
-                subjectMensaje = "Pago X Servicio o producto";
-            }
-            else
-            {
-                newEstadoCuenta = new clsEstadoCuenta(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString(), "Deposito de dinero", montoRetiro.ToString(), "Deposito");
-                cuerpoMensaje += $"Deposito de dinero de {montoRetiro.ToString()} el dia {DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString()} ";
-                subjectMensaje = "Deposito de dinero ";
-            }
+            //if (montoRetiro < 0)
+            //{
+            newEstadoCuenta = new clsEstadoCuenta(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString(), "Pago X Servicio", montoRetiro.ToString(), "Débito");
+            cuerpoMensaje += $"Pago X Servicio o producto | Q.{montoRetiro.ToString()} el dia {DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString()} ";
+            subjectMensaje = "Pago X Servicio o producto";
+            //}
+            //else
+            //{
+                //newEstadoCuenta = new clsEstadoCuenta(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString(), "Deposito de dinero", montoRetiro.ToString(), "Deposito");
+                //cuerpoMensaje += $"Deposito de dinero de {montoRetiro.ToString()} el dia {DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt").ToString()} ";
+                //subjectMensaje = "Deposito de dinero ";
+            //}
 
             if (tarjeta != null)
             {
                 // Actualizar el saldo de la tarjeta
-                tarjeta.saldo = (decimal.Parse(tarjeta.saldo) + montoRetiro).ToString();
+                if( tarjeta.limiteCredito.ToUpper().Contains("No aplica".ToUpper()) && 
+                    decimal.Parse(tarjeta.saldo) < montoRetiro)
+                {
+                    return "Lo siento, fondos insuficientes para realizar el pago";
+                }
+                if(!tarjeta.limiteCredito.ToUpper().Contains("No aplica".ToUpper()) && decimal.Parse(tarjeta.limiteCredito) < montoRetiro)
+                {
+                    return "Lo sentimos, esta transaccion supera su limite de credito permitido";
+                }
+
+
+
+                tarjeta.saldo = (decimal.Parse(tarjeta.saldo) - montoRetiro).ToString();
 
                 //El correo del usuario
                 string correoUsuario = tarjeta.correo.ToString();

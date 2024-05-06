@@ -16,8 +16,8 @@ namespace tarjetasDeCredito_proyecto1III.Models
         //Sin embargo estos son solo datos de ejemplo por motivos de mi privacidad
         // si de verdad quieren probar esta funcionalidad debera conseguir por si 
         //mismo una contraseña y correo (desde Administracion de cuentas de google, debe tener la verificacion de 2 pasos activada)
-        private string strPassword = "-----";
-        private string strCorreo = "------";
+        private string strPassword = "rvxx qdpc pnxm ofiu";
+        private string strCorreo = "rjgs004t@gmail.com";
         private string strAlias = "Developer";
 
         /// <summary>
